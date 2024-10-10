@@ -1,4 +1,4 @@
-proj_file_hash = "622919ff741b48527b82220bf16d30bc"
+proj_file_hash = "b4944660b3b9c0804a55d20e9cd28ff1"
 
 [[dependencies]]
 name = "minilib-common"
@@ -21,7 +21,7 @@ path = ".fixlang/deps/hashmap_0.1.0"
 
 [dependencies.git]
 repo = "https://github.com/tttmmmyyyy/fixlang-hashmap.git"
-rev = "eff70408f139e5dddc81f4d905fe728c1081a861"
+rev = "4d72be1c1c033b69409a1665fdbd7cebbd08d4cf"
 
 [[dependencies]]
 name = "hash"
@@ -49,3 +49,27 @@ path = ".fixlang/deps/random_0.1.0"
 [dependencies.git]
 repo = "https://github.com/tttmmmyyyy/fixlang-random.git"
 rev = "757b0f69fc5d508cc4a1b2dea524160f8e666eb9"
+
+[[dependencies]]
+name = "minilib-io"
+version = "0.1.0"
+path = "../fixlang-minilib-io"
+
+[[dependencies]]
+name = "minilib-binary"
+version = "0.1.0"
+path = "../fixlang-minilib-io/../fixlang-minilib-binary"
+
+[[dependencies]]
+name = "minilib-collection"
+version = "0.1.0"
+path = "../fixlang-minilib-io/../fixlang-minilib-collection"
+
+[[dependencies]]
+name = "asynctask"
+version = "0.1.0"
+path = ".fixlang/deps/asynctask_0.1.0"
+
+[dependencies.git]
+repo = "https://github.com/tttmmmyyyy/fixlang-asynctask.git"
+rev = "ae1d8a09e732ab10562358fff851b303d5520604"
