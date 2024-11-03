@@ -62,16 +62,16 @@ is_shutdown = |pool| (
 shutdown: TaskPool -> IO TaskPool;
 shutdown = |pool| (
     // Close the channel
-    let _ = *pool.@chan.close;
+    pool.@chan.close;;
 
     // Wait for all tasks to finish
-    let _ = *pool.@tasks.foreach_m(
-        |task| pure $ task.get
-    );
+    pool.@tasks.foreach_m(
+        |task| task.get
+    );;
     let pool = pool.set_tasks([]);
 
     // Cancell all pending futures and clears the queue.
-    let _ = *pool.cancel_all_pendings_futures;
+    pool.cancel_all_pendings_futures;;
     pure $ pool
 );
 
@@ -83,12 +83,12 @@ _task_func = |chan| (
         let token = *chan.recv;
         if *chan.is_closed.lift {
             // if channel was closed but the queue was not empty
-            let _ = *token.set_state(FutureState::canceled()).lift;
+            token.set_state(FutureState::canceled()).lift;;
             throw $ Channel::closed_error
         };
-        let _ = *token.set_state(FutureState::running()).lift;
-        let _ = *token.@io_unit.lift;
-        let _ = *token.set_state(FutureState::completed()).lift;
+        token.set_state(FutureState::running()).lift;;
+        token.@io_unit.lift;;
+        token.set_state(FutureState::completed()).lift;;
         continue_m $ ()
     )
     .try(|err|

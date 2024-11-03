@@ -24,13 +24,13 @@ make = |task_pool, io| (
     // so `IO ()` is required.
     let io_unit: IO () = do {
         let a = *io;
-        let _ = *var_result.Var::set(some $ a);
+        var_result.Var::set(some $ a);;
         var_state.Var::set(FutureState::completed())
     };
 
     // Register a future token.
     let token = FutureToken::make(var_state, io_unit);
-    let _ = *task_pool.register_future(token);
+    task_pool.register_future(token);;
 
     pure $ Future {
         var_state: var_state,
