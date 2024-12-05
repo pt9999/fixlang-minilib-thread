@@ -43,7 +43,7 @@ path = ".fixlang/deps/minilib-collection_0.1.4"
 
 [dependencies.git]
 repo = "https://github.com/pt9999/fixlang-minilib-collection.git"
-rev = "0f0d5305473c4de87e62fd11acd90dad4403583f"
+rev = "02e54ad8c98c21978ea4eee03468ea5326a22b9f"
 
 [[dependencies]]
 name = "hashmap"
@@ -79,7 +79,7 @@ path = ".fixlang/deps/minilib-binary_0.1.5"
 
 [dependencies.git]
 repo = "https://github.com/pt9999/fixlang-minilib-binary.git"
-rev = "55f3005a8ec85a0d4252ce52a0fb44c4a0c31349"
+rev = "a71138c2b1663f8aeba60c92b1f746a301443aad"
 
 [[dependencies]]
 name = "asynctask"
