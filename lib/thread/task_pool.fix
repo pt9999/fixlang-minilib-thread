@@ -10,8 +10,8 @@ module Minilib.Thread.TaskPool;
 
 import AsyncTask;
 
-import Minilib.IO.Channel;
 import Minilib.Monad.FunctorM;
+import Minilib.Thread.Channel;
 import Minilib.Thread.Future;
 
 // A task pool that manages a collection of IOTasks.

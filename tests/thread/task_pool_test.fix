@@ -2,8 +2,8 @@ module TaskPoolTest;
 
 import AsyncTask;
 
-import Minilib.IO.Channel;
 import Minilib.Monad.FunctorM;
+import Minilib.Thread.Channel;
 import Minilib.Thread.Future;
 import Minilib.Thread.TaskPool;
 import Minilib.Common.TimeEx;

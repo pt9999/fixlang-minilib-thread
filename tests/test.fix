@@ -2,10 +2,12 @@ module Test;
 
 import Minilib.Testing.UnitTest;
 
+import ChannelTest;
 import TaskPoolTest;
 
 testsuite: TestSuite;
 testsuite = [
+    ("ChannelTest", ChannelTest::main),
     ("TaskPoolTest", TaskPoolTest::main),
 ];
 

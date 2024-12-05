@@ -7,6 +7,7 @@ license = "MIT"
 [build]
 opt_level = "separated"
 files = [
+    "lib/thread/channel.fix",
     "lib/thread/future.fix",
     "lib/thread/task_pool.fix",
 ]
@@ -15,6 +16,7 @@ files = [
 opt_level = "separated"
 files = [
     "tests/test.fix",
+    "tests/thread/channel_test.fix",
     "tests/thread/task_pool_test.fix",
 ]
 
@@ -29,6 +31,13 @@ name = "minilib-io"
 version = "*"
 # path = "../fixlang-minilib-io"
 git = { url = "https://github.com/pt9999/fixlang-minilib-io.git" }
+
+# for deque
+[[dependencies]]
+name = "minilib-collection"
+version = "*"
+# path = "../fixlang-minilib-collection"
+git = { url = "https://github.com/pt9999/fixlang-minilib-collection.git" }
 
 [[dependencies]]
 name = "asynctask"

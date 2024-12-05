@@ -16,7 +16,7 @@ Computations are never performed after shutdown.
 
 A task pool that manages a collection of IOTasks.
 
-#### field `chan : Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken`
+#### field `chan : Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken`
 
 #### field `tasks : Std::Array (AsyncTask::AsyncIOTask::IOTask ())`
 
@@ -28,7 +28,7 @@ A task pool that manages a collection of IOTasks.
 
 ## `namespace Minilib.Thread.TaskPool`
 
-### `_task_func : Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken -> Std::IO ()`
+### `_task_func : Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> Std::IO ()`
 
 The task function of the taskpool.
 
@@ -55,7 +55,7 @@ Shutdowns a taskpool.
 
 ## `namespace Minilib.Thread.TaskPool::TaskPool`
 
-### `@chan : Minilib.Thread.TaskPool::TaskPool -> Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken`
+### `@chan : Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken`
 
 Retrieves the field `chan` from a value of `TaskPool`.
 
@@ -63,7 +63,7 @@ Retrieves the field `chan` from a value of `TaskPool`.
 
 Retrieves the field `tasks` from a value of `TaskPool`.
 
-### `act_chan : [f : Std::Functor] (Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken -> f (Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken)) -> Minilib.Thread.TaskPool::TaskPool -> f Minilib.Thread.TaskPool::TaskPool`
+### `act_chan : [f : Std::Functor] (Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> f (Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken)) -> Minilib.Thread.TaskPool::TaskPool -> f Minilib.Thread.TaskPool::TaskPool`
 
 Updates a value of `TaskPool` by applying a functorial action to field `chan`.
 
@@ -71,7 +71,7 @@ Updates a value of `TaskPool` by applying a functorial action to field `chan`.
 
 Updates a value of `TaskPool` by applying a functorial action to field `tasks`.
 
-### `mod_chan : (Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken -> Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken) -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
+### `mod_chan : (Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken) -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
 
 Updates a value of `TaskPool` by applying a function to field `chan`.
 
@@ -79,7 +79,7 @@ Updates a value of `TaskPool` by applying a function to field `chan`.
 
 Updates a value of `TaskPool` by applying a function to field `tasks`.
 
-### `set_chan : Minilib.IO.Channel::Channel Minilib.Thread.Future::FutureToken -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
+### `set_chan : Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
 
 Updates a value of `TaskPool` by setting field `chan` to a specified one.
 
