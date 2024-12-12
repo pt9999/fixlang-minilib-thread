@@ -52,37 +52,3 @@ It sends a future token to the channel.
 ### `shutdown : Minilib.Thread.TaskPool::TaskPool -> Std::IO Minilib.Thread.TaskPool::TaskPool`
 
 Shutdowns a taskpool.
-
-## `namespace Minilib.Thread.TaskPool::TaskPool`
-
-### `@chan : Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken`
-
-Retrieves the field `chan` from a value of `TaskPool`.
-
-### `@tasks : Minilib.Thread.TaskPool::TaskPool -> Std::Array (AsyncTask::AsyncIOTask::IOTask ())`
-
-Retrieves the field `tasks` from a value of `TaskPool`.
-
-### `act_chan : [f : Std::Functor] (Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> f (Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken)) -> Minilib.Thread.TaskPool::TaskPool -> f Minilib.Thread.TaskPool::TaskPool`
-
-Updates a value of `TaskPool` by applying a functorial action to field `chan`.
-
-### `act_tasks : [f : Std::Functor] (Std::Array (AsyncTask::AsyncIOTask::IOTask ()) -> f (Std::Array (AsyncTask::AsyncIOTask::IOTask ()))) -> Minilib.Thread.TaskPool::TaskPool -> f Minilib.Thread.TaskPool::TaskPool`
-
-Updates a value of `TaskPool` by applying a functorial action to field `tasks`.
-
-### `mod_chan : (Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken) -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
-
-Updates a value of `TaskPool` by applying a function to field `chan`.
-
-### `mod_tasks : (Std::Array (AsyncTask::AsyncIOTask::IOTask ()) -> Std::Array (AsyncTask::AsyncIOTask::IOTask ())) -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
-
-Updates a value of `TaskPool` by applying a function to field `tasks`.
-
-### `set_chan : Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
-
-Updates a value of `TaskPool` by setting field `chan` to a specified one.
-
-### `set_tasks : Std::Array (AsyncTask::AsyncIOTask::IOTask ()) -> Minilib.Thread.TaskPool::TaskPool -> Minilib.Thread.TaskPool::TaskPool`
-
-Updates a value of `TaskPool` by setting field `tasks` to a specified one.
