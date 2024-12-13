@@ -3,7 +3,7 @@ module ChannelTest;
 import AsyncTask;
 
 import Minilib.IO.FileSystem;
-import Minilib.Monad.FunctorM;
+import Minilib.Trait.Traversable;
 import Minilib.Text.StringEx;
 import Minilib.Thread.Channel;
 import Minilib.Testing.UnitTest;

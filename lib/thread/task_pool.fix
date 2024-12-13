@@ -10,7 +10,7 @@ module Minilib.Thread.TaskPool;
 
 import AsyncTask;
 
-import Minilib.Monad.FunctorM;
+import Minilib.Trait.Traversable;
 import Minilib.Thread.Channel;
 import Minilib.Thread.Future;
 
@@ -93,7 +93,7 @@ _task_func = |chan| (
     )
     .try(|err|
         if err == Channel::closed_error {
-            pure()    
+            pure()
         };
         eprintln(err)
     )

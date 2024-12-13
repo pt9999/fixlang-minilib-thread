@@ -2,7 +2,7 @@ module TaskPoolTest;
 
 import AsyncTask;
 
-import Minilib.Monad.FunctorM;
+import Minilib.Trait.Traversable;
 import Minilib.Thread.Channel;
 import Minilib.Thread.Future;
 import Minilib.Thread.TaskPool;
