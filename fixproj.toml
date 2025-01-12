@@ -5,7 +5,7 @@ authors = ["pt9999"]
 license = "MIT"
 
 [build]
-opt_level = "separated"
+opt_level = "basic"
 files = [
     "lib/thread/channel.fix",
     "lib/thread/future.fix",
@@ -13,7 +13,7 @@ files = [
 ]
 
 [build.test]
-opt_level = "separated"
+opt_level = "basic"
 files = [
     "tests/test.fix",
     "tests/thread/channel_test.fix",
