@@ -37,7 +37,7 @@ The channel data
 `channel.close` closes a channel.
 After close, `send()` will fail.
 
-### `closed_error : Std::String`
+### `closed_error : Std::ErrMsg`
 
 An error message which is reported when the channel is closed.
 
