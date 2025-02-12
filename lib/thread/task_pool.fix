@@ -46,7 +46,7 @@ cancel_all_pendings_futures = |pool| (
     // Cancell all pending futures
     let tokens = *pool.@chan.take_and_clear;
     let _ = *tokens.fold_m(
-        (), |_, token|
+        (), |token, _|
         token.set_state(FutureState::canceled())
     );
     pure()

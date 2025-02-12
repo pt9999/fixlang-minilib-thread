@@ -24,13 +24,13 @@ test_simple: TestCase;
 test_simple = (
     make_test("test_simple") $ |_|
     let pool = *TaskPool::make(4).lift;
-    let futures = *Iterator::range(0, 10).map_m(|i|
+    let futures = *Iterator::range(0, 10).to_dyn.map_m(|i|
         Future::make(pool, do {
             pure $ i * 2
         })
     );
     let total = *futures.fold_m(
-        0, |sum, future| pure $ sum + *future.get
+        0, |future, sum| pure $ sum + *future.get
     );
     assert_equal("total", 45 * 2, total);;
     pure()
@@ -44,7 +44,7 @@ test_lock = (
     let var_lock1 = *Var::make(false).lift;
     let var_lock2 = *Var::make(false).lift;
     let pool = *TaskPool::make(4).lift;
-    let futures = *Iterator::range(0, 12).map_m(|i|
+    let futures = *Iterator::range(0, 12).to_dyn.map_m(|i|
         Future::make(pool, do {
             var_count1.mod(|n| n + 1);;
             var_lock1.wait(|b| b);;
@@ -68,7 +68,7 @@ test_lock = (
     receiver.lift;;
     receiver.lift;;
     let total = *futures.fold_m(
-        0, |sum, future| pure $ sum + *future.get
+        0, |future, sum| pure $ sum + *future.get
     );
     assert_equal("total", 45 + 10 + 11, total);;
     pure()
@@ -163,7 +163,7 @@ test_perf = (
     );
     let _ = *timeit_io("io " + n.to_string,
         do {
-            let ios = Iterator::range(0, n).map(|i| pure(i));
+            let ios = Iterator::range(0, n).map(|i| pure(i)).to_dyn;
             let results = *ios.map_m(|io| io);
             let sum = results.fold(0, add);
             pure(sum)
@@ -173,7 +173,7 @@ test_perf = (
     );
     let _ = *timeit_io("futures " + n.to_string,
         do {
-            let futures = *Iterator::range(0, n).map_m(|i| Future::make(pool, pure(i)));
+            let futures = *Iterator::range(0, n).to_dyn.map_m(|i| Future::make(pool, pure(i)));
             let results = *futures.map_m(get);
             let sum = results.fold(0, add);
             pure(sum)
