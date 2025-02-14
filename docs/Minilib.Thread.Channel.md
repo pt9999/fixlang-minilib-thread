@@ -64,7 +64,7 @@ If the channel is closed and the queue is empty, it throws `closed_error`.
 `channel.send(a)` sends a data to the queue of the channel.
 If the channel is closed, it throws `closed_error`.
 
-### `take_and_clear : Minilib.Thread.Channel::Channel a -> Std::IO (Std::Iterator a)`
+### `take_and_clear : Minilib.Thread.Channel::Channel a -> Std::IO (Std::Iterator::DynIterator a)`
 
 `channel.take_and_clear` takes all items away from the queue of the channel
 and clears the queue.
