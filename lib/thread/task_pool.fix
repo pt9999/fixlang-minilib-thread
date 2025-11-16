@@ -45,10 +45,7 @@ cancel_all_pendings_futures: TaskPool -> IO ();
 cancel_all_pendings_futures = |pool| (
     // Cancell all pending futures
     let tokens = *pool.@chan.take_and_clear;
-    tokens.fold_m(
-        (), |token, _|
-        token.set_state(FutureState::canceled())
-    )
+    tokens.foreach_m(set_state(FutureState::canceled()))
 );
 
 // Checks whether the taskpool has been shutdown.
@@ -64,7 +61,7 @@ shutdown = |pool| (
     pool.@chan.close;;
 
     // Wait for all tasks to finish
-    pool.@tasks.foreach_m(
+    pool.@tasks.to_iter.foreach_m(
         |task| task.get
     );;
     let pool = pool.set_tasks([]);
