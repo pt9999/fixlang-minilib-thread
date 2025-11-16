@@ -158,10 +158,10 @@ test_perf: IO ();
 test_perf = (
     let pool = *TaskPool::make(4);
     let n = 1000;
-    let _ = *timeit_io("plain " + n.to_string,
+    timeit_io("plain " + n.to_string,
         pure(Iterator::range(0, n).fold(0, add))
-    );
-    let _ = *timeit_io("io " + n.to_string,
+    );;
+    timeit_io("io " + n.to_string,
         do {
             let ios = Iterator::range(0, n).map(|i| pure(i)).to_dyn;
             let results = *ios.map_m(|io| io);
@@ -170,8 +170,8 @@ test_perf = (
         }.try(|err|
             undefined(err)
         )
-    );
-    let _ = *timeit_io("futures " + n.to_string,
+    );;
+    timeit_io("futures " + n.to_string,
         do {
             let futures = *Iterator::range(0, n).to_dyn.map_m(|i| Future::make(pool, pure(i)));
             let results = *futures.map_m(get);
@@ -180,7 +180,7 @@ test_perf = (
         }.try(|err|
             undefined(err)
         )
-    );
+    );;
     pure()
 );
 
