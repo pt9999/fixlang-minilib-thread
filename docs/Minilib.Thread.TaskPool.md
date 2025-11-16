@@ -1,6 +1,6 @@
 # Minilib.Thread.TaskPool
 
-Defined in minilib-thread@0.5.1
+Defined in minilib-thread@0.5.2
 
 A task pool that can be used parallel computation.
 
@@ -13,12 +13,6 @@ Computations are never performed after shutdown.
 ## Values
 
 ### namespace Minilib.Thread.TaskPool
-
-#### _task_func
-
-Type: `Minilib.Thread.Channel::Channel Minilib.Thread.Future::FutureToken -> Std::IO ()`
-
-The task function of the taskpool.
 
 #### cancel_all_pendings_futures
 

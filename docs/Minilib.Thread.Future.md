@@ -1,6 +1,6 @@
 # Minilib.Thread.Future
 
-Defined in minilib-thread@0.5.1
+Defined in minilib-thread@0.5.2
 
 A computation that is performed in a TaskPool in parallel.
 
