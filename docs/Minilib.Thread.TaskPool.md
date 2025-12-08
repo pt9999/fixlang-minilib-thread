@@ -1,6 +1,6 @@
 # Minilib.Thread.TaskPool
 
-Defined in minilib-thread@0.5.2
+Defined in minilib-thread@0.5.3
 
 A task pool that can be used parallel computation.
 
