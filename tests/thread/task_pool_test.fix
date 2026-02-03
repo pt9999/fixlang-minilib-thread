@@ -37,6 +37,31 @@ test_simple = (
     pure()
 );
 
+test_recursive: TestCase;
+test_recursive = (
+    make_test("test_recursive") $ |_|
+    let pool = *TaskPool::make(4);
+    let var_count = *Var::make(0).lift;
+    let max_level = 3;
+    let tasks_per_level = 2;
+    let total_count = 8; // 2^3
+    let future_task = fix $ |future_task, level, pool| do {
+        if level <= 0 {
+            var_count.mod(add(1)).lift;;
+            pure()
+        };
+        range(0, tasks_per_level).foreach_m(|i|
+            //eval debug_eprintln("test_recursive (level,i)=" + (level, i).to_string);
+            let future: Future (Result ErrMsg ()) = *Future::make(pool, future_task(level - 1, pool));
+            pure()
+        )
+    }.to_result;
+    let future: Future (Result ErrMsg ()) = *Future::make(pool, future_task(max_level, pool));
+    var_count.wait(|c| c == total_count).lift;;
+    pool.shutdown;;
+    pure()
+);
+
 test_lock: TestCase;
 test_lock = (
     make_test("test_lock") $ |_|
@@ -191,6 +216,7 @@ main = (
     [
         test_task_count,
         test_simple,
+        test_recursive,
         test_lock,
         test_is_shutdown,
         test_shutdown_future_make,
