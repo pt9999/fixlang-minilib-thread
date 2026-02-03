@@ -1,6 +1,6 @@
 # Minilib.Thread.TaskPool
 
-Defined in minilib-thread@0.5.7
+Defined in minilib-thread@0.6.0
 
 A task pool that can be used parallel computation.
 
@@ -16,32 +16,32 @@ Computations are never performed after shutdown.
 
 #### cancel_all_pendings_futures
 
-Type: `Minilib.Thread.TaskPool::TaskPool -> Std::IO ()`
+Type: `[m : Minilib.Monad.IO::MonadIO] Minilib.Thread.TaskPool::TaskPool -> m ()`
 
 Cancel all pending futures and clears the queue.
 
 #### is_shutdown
 
-Type: `Minilib.Thread.TaskPool::TaskPool -> Std::IO Std::Bool`
+Type: `[m : Minilib.Monad.IO::MonadIO] Minilib.Thread.TaskPool::TaskPool -> m Std::Bool`
 
 Checks whether the taskpool has been shutdown.
 
 #### make
 
-Type: `Std::I64 -> Std::IO Minilib.Thread.TaskPool::TaskPool`
+Type: `[m : Minilib.Monad.IO::MonadIO] Std::I64 -> m Minilib.Thread.TaskPool::TaskPool`
 
 `TaskPool::make(task_count)` creates a TaskPool.
 
 #### register_future
 
-Type: `Minilib.Thread.Future::FutureToken -> Minilib.Thread.TaskPool::TaskPool -> Std::IO::IOFail ()`
+Type: `[m : Minilib.Monad.IO::MonadIOFail] Minilib.Thread.Future::FutureToken -> Minilib.Thread.TaskPool::TaskPool -> m ()`
 
 Register a future.
 It sends a future token to the channel.
 
 #### shutdown
 
-Type: `Minilib.Thread.TaskPool::TaskPool -> Std::IO Minilib.Thread.TaskPool::TaskPool`
+Type: `[m : Minilib.Monad.IO::MonadIO] Minilib.Thread.TaskPool::TaskPool -> m Minilib.Thread.TaskPool::TaskPool`
 
 Shutdowns a taskpool.
 
@@ -51,7 +51,7 @@ Shutdowns a taskpool.
 
 #### TaskPool
 
-Defined as: `type TaskPool = unbox struct { ...fields... }`
+Defined as: `type TaskPool = box struct { ...fields... }`
 
 A task pool that manages a collection of IOTasks.
 

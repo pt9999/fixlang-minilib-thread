@@ -1,6 +1,6 @@
 # Minilib.Thread.Future
 
-Defined in minilib-thread@0.5.7
+Defined in minilib-thread@0.6.0
 
 A computation that is performed in a TaskPool in parallel.
 
@@ -10,14 +10,14 @@ A computation that is performed in a TaskPool in parallel.
 
 #### get
 
-Type: `Minilib.Thread.Future::Future a -> Std::IO::IOFail a`
+Type: `[m : Minilib.Monad.IO::MonadIOFail] Minilib.Thread.Future::Future a -> m a`
 
 Gets the result of the Future.
 It waits for future state to be either completed or canceled.
 
 #### make
 
-Type: `Minilib.Thread.TaskPool::TaskPool -> Std::IO a -> Std::IO::IOFail (Minilib.Thread.Future::Future a)`
+Type: `[m : Minilib.Monad.IO::MonadIOFail] Minilib.Thread.TaskPool::TaskPool -> Std::IO a -> m (Minilib.Thread.Future::Future a)`
 
 `Future::make(task_pool, io) creates a Future.
 `io` is performed in the task pool.
@@ -31,7 +31,7 @@ Type: `AsyncTask::Var::Var Minilib.Thread.Future::FutureState -> Std::IO () -> M
 
 #### set_state
 
-Type: `Minilib.Thread.Future::FutureState -> Minilib.Thread.Future::FutureToken -> Std::IO ()`
+Type: `[m : Minilib.Monad.IO::MonadIO] Minilib.Thread.Future::FutureState -> Minilib.Thread.Future::FutureToken -> m ()`
 
 ## Types and aliases
 
