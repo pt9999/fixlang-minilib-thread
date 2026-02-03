@@ -2,20 +2,21 @@ module TaskPoolTest;
 
 import AsyncTask;
 
-import Minilib.Trait.Traversable;
+import Minilib.Common.TimeEx;
+import Minilib.Monad.Error;
+import Minilib.Text.StringEx;
+import Minilib.Testing.UnitTest;
 import Minilib.Thread.Channel;
 import Minilib.Thread.Future;
 import Minilib.Thread.TaskPool;
-import Minilib.Common.TimeEx;
-import Minilib.Text.StringEx;
-import Minilib.Testing.UnitTest;
+import Minilib.Trait.Traversable;
 
 test_task_count: TestCase;
 test_task_count = (
     make_test("test_task_count") $ |_|
-    let pool = *TaskPool::make(4).lift;
+    let pool = *TaskPool::make(4);
     assert_equal("task_count", 4, pool.@tasks.get_size);;
-    let pool = *pool.shutdown.lift;
+    let pool = *pool.shutdown;
     assert_equal("after shutdown", 0, pool.@tasks.get_size);;
     pure()
 );
@@ -23,7 +24,7 @@ test_task_count = (
 test_simple: TestCase;
 test_simple = (
     make_test("test_simple") $ |_|
-    let pool = *TaskPool::make(4).lift;
+    let pool = *TaskPool::make(4);
     let futures = *Iterator::range(0, 10).to_dyn.map_m(|i|
         Future::make(pool, do {
             pure $ i * 2
@@ -43,7 +44,7 @@ test_lock = (
     let var_count2 = *Var::make(0).lift;
     let var_lock1 = *Var::make(false).lift;
     let var_lock2 = *Var::make(false).lift;
-    let pool = *TaskPool::make(4).lift;
+    let pool = *TaskPool::make(4);
     let futures = *Iterator::range(0, 12).to_dyn.map_m(|i|
         Future::make(pool, do {
             var_count1.mod(|n| n + 1);;
@@ -63,10 +64,10 @@ test_lock = (
         var_lock1.Var::set(false);;
         var_lock2.Var::set(true);;
         pure()
-    };
-    receiver.lift;;
-    receiver.lift;;
-    receiver.lift;;
+    }.lift;
+    receiver;;
+    receiver;;
+    receiver;;
     let total = *futures.fold_m(
         0, |future, sum| pure $ sum + *future.get
     );
@@ -77,10 +78,10 @@ test_lock = (
 test_is_shutdown: TestCase;
 test_is_shutdown = (
     make_test("test_is_shutdown") $ |_|
-    let pool = *TaskPool::make(2).lift;
-    assert_equal("before shutdown", false, *pool.is_shutdown.lift);;
-    let pool = *pool.shutdown.lift;
-    assert_equal("after shutdown", true, *pool.is_shutdown.lift);;
+    let pool = *TaskPool::make(2);
+    assert_equal("before shutdown", false, *pool.is_shutdown);;
+    let pool = *pool.shutdown;
+    assert_equal("after shutdown", true, *pool.is_shutdown);;
     pure()
 );
 
@@ -88,9 +89,9 @@ test_is_shutdown = (
 test_shutdown_future_make: TestCase;
 test_shutdown_future_make = (
     make_test("test_shutdown_future_make") $ |_|
-    let pool = *TaskPool::make(2).lift;
-    let pool = *pool.shutdown.lift;
-    let res = *Future::make(pool, pure(1)).to_result.lift;
+    let pool = *TaskPool::make(2);
+    let pool = *pool.shutdown;
+    let res = *Future::make(pool, pure(1)).to_result_t;
     // `Future` does not implment `Eq`, so I cannot use `assert_equal` here.
     //assert_equal("res", err $ Channel::closed_error, res);;
     assert_true("res.is_err", res.is_err);;
@@ -103,7 +104,7 @@ test_shutdown_future_cancel: TestCase;
 test_shutdown_future_cancel = (
     make_test("test_shutdown_future_cancel") $ |_|
     let var_int = *Var::make(0).lift;
-    let pool = *TaskPool::make(1).lift;
+    let pool = *TaskPool::make(1);
     let future1 = *Future::make(pool, do {
         var_int.wait(|i| i == 1);;
         var_int.Var::set(2);;
@@ -117,11 +118,11 @@ test_shutdown_future_cancel = (
     });
     var_int.Var::set(1).lift;;
     var_int.Var::wait(|i| i == 2).lift;;     // future1 running
-    pool.@chan.close.lift;;                  // hack for testing !!!
+    pool.@chan.close;;                       // hack for testing !!!
     var_int.Var::set(3).lift;;               // future1 end, future2 will not start
     let pool = *pool.shutdown.lift;
-    let result1 = *future1.get.to_result.lift;
-    let result2 = *future2.get.to_result.lift;
+    let result1 = *future1.get.to_result_t;
+    let result2 = *future2.get.to_result_t;
     assert_equal("result1", ok(true), result1);;
     assert_equal("result2", err("canceled"), result2);;
     pure()
@@ -143,9 +144,9 @@ test_cancel_all_pending_futures = (
     var_int.Var::wait(|i| i == 1).lift;;     // future1 running
     pool.cancel_all_pendings_futures.lift;;
     var_int.Var::set(2).lift;;
-    let result1 = *future1.get.to_result.lift;
-    let result2 = *future2.get.to_result.lift;
-    let result3 = *future3.get.to_result.lift;
+    let result1 = *future1.get.to_result_t;
+    let result2 = *future2.get.to_result_t;
+    let result3 = *future3.get.to_result_t;
     assert_equal("result1", ok(true), result1);;
     assert_equal("result2", err("canceled"), result2);;
     assert_equal("result3", err("canceled"), result3);;
