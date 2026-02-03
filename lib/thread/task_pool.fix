@@ -10,6 +10,7 @@ module Minilib.Thread.TaskPool;
 
 import AsyncTask;
 
+import Minilib.Monad.IO;
 import Minilib.Trait.Traversable;
 import Minilib.Thread.Channel;
 import Minilib.Thread.Future;
@@ -21,8 +22,8 @@ type TaskPool = unbox struct {
 };
 
 // `TaskPool::make(task_count)` creates a TaskPool.
-make: I64 -> IO TaskPool;
-make = |task_count| (
+make: [m: MonadIO] I64 -> m TaskPool;
+make = |task_count| lift_io $ do {
     let chan = *Channel::make;
     let tasks = *Iterator::range(0, task_count).to_array.map_m(|i|
         AsyncIOTask::make(_task_func(chan))
@@ -31,32 +32,32 @@ make = |task_count| (
         chan: chan,
         tasks: tasks
     }
-);
+};
 
 // Register a future.
 // It sends a future token to the channel.
-register_future: FutureToken -> TaskPool -> IOFail ();
-register_future = |token, pool| (
+register_future: [m: MonadIOFail] FutureToken -> TaskPool -> m ();
+register_future = |token, pool| lift_iofail $ do {
     pool.@chan.send(token)
-);
+};
 
 // Cancel all pending futures and clears the queue.
-cancel_all_pendings_futures: TaskPool -> IO ();
-cancel_all_pendings_futures = |pool| (
+cancel_all_pendings_futures: [m: MonadIO] TaskPool -> m ();
+cancel_all_pendings_futures = |pool| lift_io $ do {
     // Cancell all pending futures
     let tokens = *pool.@chan.take_and_clear;
     tokens.foreach_m(set_state(FutureState::canceled()))
-);
+};
 
 // Checks whether the taskpool has been shutdown.
-is_shutdown: TaskPool -> IO Bool;
-is_shutdown = |pool| (
+is_shutdown: [m: MonadIO] TaskPool -> m Bool;
+is_shutdown = |pool| lift_io $ do {
     pool.@chan.is_closed
-);
+};
 
 // Shutdowns a taskpool.
-shutdown: TaskPool -> IO TaskPool;
-shutdown = |pool| (
+shutdown: [m: MonadIO] TaskPool -> m TaskPool;
+shutdown = |pool| lift_io $ do {
     // Close the channel
     pool.@chan.close;;
 
@@ -69,7 +70,7 @@ shutdown = |pool| (
     // Cancell all pending futures and clears the queue.
     pool.cancel_all_pendings_futures;;
     pure $ pool
-);
+};
 
 // The task function of the taskpool.
 _task_func: Channel FutureToken -> IO ();

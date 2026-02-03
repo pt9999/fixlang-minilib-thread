@@ -3,6 +3,7 @@ module Minilib.Thread.Future;
 
 import AsyncTask;
 
+import Minilib.Monad.IO;
 import Minilib.Thread.TaskPool;
 
 // A computation that is performed in a TaskPool in parallel.
@@ -14,8 +15,8 @@ type Future a = unbox struct {
 // `Future::make(task_pool, io) creates a Future.
 // `io` is performed in the task pool.
 // If the task pool has been shutdown, an error is thrown.
-make: TaskPool -> IO a -> IOFail (Future a);
-make = |task_pool, io| (
+make: [m: MonadIOFail] TaskPool -> IO a -> m (Future a);
+make = |task_pool, io| lift_iofail $ do {
     // Init the state and result
     let var_state = *Var::make(FutureState::pending()).lift;
     let var_result = *Var::make(none()).lift;
@@ -36,12 +37,12 @@ make = |task_pool, io| (
         var_state: var_state,
         var_result: var_result
     }
-);
+};
 
 // Gets the result of the Future.
 // It waits for future state to be either completed or canceled.
-get: Future a -> IOFail a;
-get = |future| (
+get: [m: MonadIOFail] Future a -> m a;
+get = |future| lift_iofail $ do {
     let state = *future.@var_state.wait_and_lock(
         |state| state.is_completed || state.is_canceled,
         pure
@@ -52,7 +53,7 @@ get = |future| (
         throw $ "result is not set !!!"     // should not happen
     };
     pure $ result.as_some
-);
+};
 
 // A state of a future.
 type FutureState = unbox union {
@@ -80,8 +81,8 @@ namespace FutureToken {
         }
     );
 
-    set_state: FutureState -> FutureToken -> IO ();
-    set_state = |state, token| (
+    set_state: [m: MonadIO] FutureState -> FutureToken -> m ();
+    set_state = |state, token| lift_io $ do {
         token.@var_state.Var::set(state)
-    );
+    };
 }
