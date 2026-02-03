@@ -16,7 +16,7 @@ import Minilib.Thread.Channel;
 import Minilib.Thread.Future;
 
 // A task pool that manages a collection of IOTasks.
-type TaskPool = unbox struct {
+type TaskPool = box struct {
     chan: Channel FutureToken,
     tasks: Array (IOTask ())
 };
