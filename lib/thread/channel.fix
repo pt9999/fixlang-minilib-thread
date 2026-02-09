@@ -2,9 +2,9 @@
 module Minilib.Thread.Channel;
 
 import AsyncTask;
+import RingBuffer;
 
 import Minilib.Monad.IO;
-import Minilib.Collection.Deque;
 
 // A Channel that can be used for the communication of threads.
 type Channel a = unbox struct {
@@ -13,7 +13,7 @@ type Channel a = unbox struct {
 
 // The channel data
 type ChannelData a = unbox struct {
-    deque: Deque a,     // the queue
+    queue: RingBuffer a,     // the queue
     closed: Bool        // true iff the channel is closed
 };
 
@@ -22,7 +22,7 @@ make: [m: MonadIO] m (Channel a);
 make = lift_io $ do {
     pure();;        // make it lazy
     let chan_data = ChannelData {
-        deque: Deque::empty(0),
+        queue: RingBuffer::create([]),
         closed: false
     };
     let var = *Var::make(chan_data);
@@ -32,7 +32,7 @@ make = lift_io $ do {
 // `channel.clear` clears the queue of the channel.
 clear: [m: MonadIO] Channel a -> m ();
 clear = |chan| lift_io $ do {
-    chan.@var.mod(set_deque(Deque::empty(0)))
+    chan.@var.mod(set_queue(RingBuffer::create([])))
 };
 
 // `channel.take_and_clear` takes all items away from the queue of the channel
@@ -42,8 +42,14 @@ take_and_clear: [m: MonadIO] Channel a -> m (DynIterator a);
 take_and_clear = |chan| lift_io $ do {
     chan.@var.lock(
         |data|
-        let iter = data.@deque.to_iter.to_dyn;
-        chan.@var.mod(set_deque(Deque::empty(0)));;
+        let queue = data.@queue;
+        let iter = Iterator::generate(queue, |q|
+            match q.get_front {
+                none() => none(),
+                some(a) => some $ (q.pop_front, a)
+            }
+        ).to_dyn;
+        chan.@var.mod(set_queue(RingBuffer::create([])));;
         pure $ iter
     )
 };
@@ -66,7 +72,7 @@ is_closed = |chan| lift_io $ do {
 is_empty: [m: MonadIO] Channel a -> m Bool;
 is_empty = |chan| lift_io $ do {
     let data = *chan.@var.get;
-    pure $ data.@deque.is_empty
+    pure $ data.@queue.is_empty
 };
 
 // `channel.send(a)` sends a data to the queue of the channel.
@@ -78,7 +84,7 @@ send = |a, chan| lift_iofail $ do {
         if data.@closed {
             pure $ err $ closed_error
         };
-        let data = data.mod_deque(push_back(a));
+        let data = data.mod_queue(push_back(a));
         chan.@var.Var::set(data);;
         pure $ ok $ ()
     ).lift.bind(from_result)
@@ -90,13 +96,13 @@ send = |a, chan| lift_iofail $ do {
 recv: [m: MonadIOFail] Channel a -> m a;
 recv = |chan| lift_iofail $ do {
     chan.@var.wait_and_lock(
-        |data| data.@closed || !data.@deque.is_empty,
+        |data| data.@closed || !data.@queue.is_empty,
         |data|
-        if data.@closed && data.@deque.is_empty {
+        if data.@closed && data.@queue.is_empty {
             pure $ err $ closed_error
         };
-        let a = data.@deque.get_front.as_some;
-        let data = data.mod_deque(pop_front);
+        let a = data.@queue.get_front.as_some;
+        let data = data.mod_queue(pop_front);
         chan.@var.Var::set(data);;
         pure $ ok $ a
     ).lift.bind(from_result)
@@ -109,14 +115,14 @@ try_recv: [m: MonadIOFail] Channel a -> m (Option a);
 try_recv = |chan| lift_iofail $ do {
     chan.@var.lock(
         |data|
-        if data.@closed && data.@deque.is_empty {
+        if data.@closed && data.@queue.is_empty {
             pure $ err $ closed_error
         };
-        if data.@deque.is_empty {
+        if data.@queue.is_empty {
             pure $ ok $ none()
         };
-        let a = data.@deque.get_front.as_some;
-        let data = data.mod_deque(pop_front);
+        let a = data.@queue.get_front.as_some;
+        let data = data.mod_queue(pop_front);
         chan.@var.Var::set(data);;
         pure $ ok $ some(a)
     ).lift.bind(from_result)
