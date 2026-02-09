@@ -23,24 +23,24 @@ files = [
 
 [[dependencies]]
 name = "minilib-common"
-version = ">=0.10.0"
+version = "0.11.3"
 # path = "../fixlang-minilib-common"
 git = { url = "https://github.com/pt9999/fixlang-minilib-common.git" }
 
 [[dependencies]]
 name = "minilib-io"
-version = "*"
+version = "0.7.1"
 # path = "../fixlang-minilib-io"
 git = { url = "https://github.com/pt9999/fixlang-minilib-io.git" }
 
 # for deque
 [[dependencies]]
 name = "minilib-collection"
-version = "*"
+version = "0.6.6"
 # path = "../fixlang-minilib-collection"
 git = { url = "https://github.com/pt9999/fixlang-minilib-collection.git" }
 
 [[dependencies]]
 name = "asynctask"
-version = "*"
+version = "1.1.5"
 git = { url = "https://github.com/tttmmmyyyy/fixlang-asynctask.git" }
