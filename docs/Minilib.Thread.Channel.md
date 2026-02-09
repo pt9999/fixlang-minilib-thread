@@ -1,6 +1,6 @@
 # Minilib.Thread.Channel
 
-Defined in minilib-thread@0.6.0
+Defined in minilib-thread@0.6.1
 
 A Channel that can be used for the communication of threads.
 
