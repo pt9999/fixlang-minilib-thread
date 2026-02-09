@@ -1,6 +1,6 @@
 # Minilib.Thread.Channel
 
-Defined in minilib-thread@0.6.1
+Defined in minilib-thread@0.7.0
 
 A Channel that can be used for the communication of threads.
 
@@ -96,9 +96,9 @@ Defined as: `type ChannelData a = unbox struct { ...fields... }`
 
 The channel data
 
-##### field `deque`
+##### field `queue`
 
-Type: `Minilib.Collection.Deque::Deque a`
+Type: `RingBuffer::RingBuffer a`
 
 ##### field `closed`
 
