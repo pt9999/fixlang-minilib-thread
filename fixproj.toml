@@ -32,14 +32,8 @@ version = "0.1.1"
 git = { url = "https://github.com/tttmmmyyyy/ring-buffer.git" }
 
 [[dependencies]]
-name = "minilib-common"
-version = "0.12.0"
-# path = "../fixlang-minilib-common"
-git = { url = "https://github.com/pt9999/fixlang-minilib-common.git" }
-
-[[dependencies]]
 name = "minilib-io"
-version = "0.8.0"
+version = "0.8.3"
 # path = "../fixlang-minilib-io"
 git = { url = "https://github.com/pt9999/fixlang-minilib-io.git" }
 

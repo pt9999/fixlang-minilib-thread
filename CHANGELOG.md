@@ -1,3 +1,7 @@
+## 0.7.1
+### Changed
+- Removed indirect dependencies.
+
 ## 0.7.0
 ### Changed
 - Minilib.Thread.Channel: Now use `RingBuffer` as a queue instead of `Minilib.Collection.Deque`.
