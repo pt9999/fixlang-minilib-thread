@@ -38,12 +38,12 @@ rev = "87c043b05ab35881c81a53587cdbc72f0ae0e5cf"
 
 [[dependencies]]
 name = "minilib-io"
-version = "0.8.3"
-path = ".fixlang/deps/minilib-io_0.8.3"
+version = "0.8.4"
+path = ".fixlang/deps/minilib-io_0.8.4"
 
 [dependencies.git]
 repo = "https://github.com/pt9999/fixlang-minilib-io.git"
-rev = "8412e10b3892dfcc4ec1b4427d982197f2cbb9e3"
+rev = "dbcaf9dae93f1df864b6eab0283f950f85d9c3f4"
 
 [[dependencies]]
 name = "ring-buffer"
