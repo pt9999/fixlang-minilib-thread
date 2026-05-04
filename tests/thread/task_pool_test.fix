@@ -15,9 +15,9 @@ test_task_count: TestCase;
 test_task_count = (
     make_test("test_task_count") $ |_|
     let pool = *TaskPool::make(4);
-    assert_equal("task_count", 4, pool.@tasks.get_size);;
+    assert_equal("task_count", 4, pool.@tasks.@size);;
     let pool = *pool.shutdown;
-    assert_equal("after shutdown", 0, pool.@tasks.get_size);;
+    assert_equal("after shutdown", 0, pool.@tasks.@size);;
     pure()
 );
 
