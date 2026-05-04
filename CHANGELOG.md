@@ -1,3 +1,7 @@
+## 0.7.3
+### Changed
+- Upgraded to minilib-io@0.8.5, ring-buffer@0.1.2.
+
 ## 0.7.1
 ### Changed
 - Removed indirect dependencies.

@@ -1,6 +1,6 @@
 [general]
 name = "minilib-thread"
-version = "0.7.2"
+version = "0.7.3-alpha.1"
 fix_version = "1.3.0"
 authors = ["pt9999"]
 license = "MIT"
@@ -28,12 +28,12 @@ git = { url = "https://github.com/tttmmmyyyy/fixlang-asynctask.git" }
 
 [[dependencies]]
 name = "ring-buffer"
-version = "0.1.1"
+version = "0.1.2"
 git = { url = "https://github.com/tttmmmyyyy/ring-buffer.git" }
 
 [[dependencies]]
 name = "minilib-io"
-version = "0.8.3"
+version = "0.8.5"
 # path = "../fixlang-minilib-io"
 git = { url = "https://github.com/pt9999/fixlang-minilib-io.git" }
 
