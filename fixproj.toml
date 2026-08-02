@@ -15,6 +15,7 @@ files = [
 
 [build.test]
 opt_level = "basic"
+threaded = true
 files = [
     "tests/test.fix",
     "tests/thread/channel_test.fix",
